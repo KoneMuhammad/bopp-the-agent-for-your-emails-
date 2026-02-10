@@ -1,5 +1,8 @@
 package com.bopp.bopp.bopp
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -21,13 +24,18 @@ fun main(args: Array<String>) {
     runApplication<BoppApplication>(*args)
 }
 
-class WebSocketConfig: WebSocketConfigurer {
+class WebSocketConfig(
+    private val aiLayer: AiLayer
+) : WebSocketConfigurer {
     override fun registerWebSocketHandlers(registry: WebSocketHandlerRegistry) {
-        registry.addHandler(WebSocketClientHandler(), "/ws")
+        registry.addHandler(WebSocketClientHandler(aiLayer), "/ws")
     }
 }
-class WebSocketClientHandler : WebSocketHandler {
+class WebSocketClientHandler(
+    private val aiLayer: AiLayer  // Inject it here
+)  : WebSocketHandler {
 
+    private val scope = CoroutineScope(Dispatchers.IO)  // Add this
     private val logger = LoggerFactory.getLogger(WebSocketClientHandler::class.java)
 
     override fun afterConnectionEstablished(session: WebSocketSession) {
@@ -50,16 +58,18 @@ class WebSocketClientHandler : WebSocketHandler {
                 logger.info("Received text message: $payload")
 
                 // Process the message
-                try {
-                    // Example: Parse JSON
-                    // val data = objectMapper.readValue(payload, MyDataClass::class.java)
+                scope.launch {
+                    try {
+                        // Example: Parse JSON
+                        // val data = objectMapper.readValue(payload, MyDataClass::class.java)
 
-                    // Handle the message
-                    processMessage(session, payload)
+                        // Handle the message
+                        processMessage(session, payload)
 
-                } catch (e: Exception) {
-                    logger.error("Error processing message: ${e.message}", e)
-                    session.sendMessage(TextMessage("""{"error": "Failed to process message"}"""))
+                    } catch (e: Exception) {
+                        logger.error("Error processing message: ${e.message}", e)
+                        session.sendMessage(TextMessage("""{"error": "Failed to process message"}"""))
+                    }
                 }
             }
 
@@ -127,19 +137,21 @@ class WebSocketClientHandler : WebSocketHandler {
     }
 
     // Helper method to process messages
-    private fun processMessage(session: WebSocketSession, payload: String) {
+    private suspend fun processMessage(session: WebSocketSession, payload: String) {
         // Your business logic here
         logger.info("Processing message: $payload")
 
-        // Example: Echo back
-        session.sendMessage(TextMessage("Server received: $payload"))
+        try {
+            // Get AI response
+            val aiResponse = aiLayer.chat(payload)
 
-        // Example: Handle different message types
-        // when {
-        //     payload.contains("\"type\":\"chat\"") -> handleChatMessage(session, payload)
-        //     payload.contains("\"type\":\"subscribe\"") -> handleSubscription(session, payload)
-        //     else -> logger.warn("Unknown message type")
-        // }
+            // Send back to client
+            session.sendMessage(TextMessage(aiResponse))
+
+        } catch (e: Exception) {
+            logger.error("Error getting AI response: ${e.message}", e)
+            session.sendMessage(TextMessage("Error: Could not process your message"))
+        }
     }
 }
 
