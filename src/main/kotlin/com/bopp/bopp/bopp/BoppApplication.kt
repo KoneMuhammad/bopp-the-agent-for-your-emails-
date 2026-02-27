@@ -1,5 +1,6 @@
 package com.bopp.bopp.bopp
 
+import com.sun.tools.javac.code.TypeAnnotationPosition.field
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -140,6 +141,11 @@ class WebSocketClientHandler(
     private suspend fun processMessage(session: WebSocketSession, payload: String) {
         // Your business logic here
         logger.info("Processing message: $payload")
+        // Alternate ways to do  logging pros and cons of each
+        /**
+         * the keys is that within the alternate ways of doing something or infinite ways of doing something
+         * there are pros and cons of each
+         */
 
         try {
             // Get AI response
@@ -154,4 +160,5 @@ class WebSocketClientHandler(
         }
     }
 }
+
 

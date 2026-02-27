@@ -28,3 +28,10 @@ class AiLayer(private val aiConfig: AIConfig) {
         return response.choices.first().message.content
     }
 }
+fun logicalstatments(){
+    val somevalue = true
+    val somethingelse: Boolean
+    if(somevalue){
+somethingelse = true
+    }
+}
