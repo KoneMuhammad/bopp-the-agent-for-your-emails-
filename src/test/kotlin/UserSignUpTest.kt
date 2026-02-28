@@ -1,7 +1,9 @@
+import auth.getEmailIds
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.springframework.boot.test.context.SpringBootTest
-import user.UserCredentials
+import user.User
+import user.UserRepository
 import kotlin.test.assertEquals
 
 @SpringBootTest
@@ -9,14 +11,12 @@ class  UserRepositoryTest {
 
     @Test
     fun `user emails match emails from OAuth2 connected accounts`() {
-        val emailIds =  getEmailIds(emailIdList)
+        val emailIdListFromEmailBackend = listOf("tackoFall", "Diallo",)
+        val emailIds =  getEmailIds(emailIdListFromEmailBackend)
 
-        UserRepository.save(UserCredentials(emailIds))
+        val user = UserRepository().save(User(emailIds))
 
-        val userEmailIds = UserCredentials.emailIdList
-        assertNotNull(userEmailIds)
-
-         assertEquals(emailIds, userEmailIds)
+         assertEquals(emailIdListFromEmailBackend, user.emailIdList)
 
     }
 }
