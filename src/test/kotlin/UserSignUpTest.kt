@@ -6,12 +6,11 @@ import user.User
 import user.UserRepository
 import kotlin.test.assertEquals
 
-@SpringBootTest
 class  UserRepositoryTest {
 
     @Test
     fun `user emails match emails from OAuth2 connected accounts`() {
-        val emailIdListFromEmailBackend = listOf("tackoFall", "Diallo",)
+        val emailIdListFromEmailBackend = listOf("machine", "maths",)
         val emailIds =  getEmailIds(emailIdListFromEmailBackend)
 
         val user = UserRepository().save(User(emailIds))
