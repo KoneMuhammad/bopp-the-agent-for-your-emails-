@@ -8,16 +8,21 @@ import kotlin.test.assertEquals
 
 class  UserRepositoryTest {
 
+    //WHY: the email api could return bad data so I have this filter layer
     @Test
     fun `user emails match emails from OAuth2 connected accounts`() {
-        val emailIdListFromEmailBackend = listOf("machine", "maths",)
-        val emailIds =  getEmailIds(emailIdListFromEmailBackend)
+
+        val emailIdListFromEmailBackend = listOf("machine", "maths")
+        val emailIds = getEmailIds(emailIdListFromEmailBackend)
 
         val user = UserRepository().save(User(emailIds))
 
-         assertEquals(emailIdListFromEmailBackend, user.emailIdList)
+        assertEquals(
+            emailIdListFromEmailBackend,
+            user.emailIdList
+        )
+
 
     }
-}
 
-
+    }
