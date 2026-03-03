@@ -4,4 +4,3 @@ package auth
 fun getEmailIds(emailIdList: List<String>): List<String> {
     return emailIdList.filter { it.isNotBlank() && it.matches(Regex("^[a-zA-Z0-9]+$")) }
 }
-+
