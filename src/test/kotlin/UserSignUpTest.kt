@@ -1,18 +1,3 @@
-import auth.getEmailIds
-import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest
-import org.springframework.context.annotation.ComponentScan
-import org.springframework.context.annotation.Import
-import user.User
-import user.UserEmail
-import user.UserRepository
-import user.singleUser
-import kotlin.collections.emptyList
-import kotlin.test.assertEquals
-
-
-
 /**
 @DataJpaTest
 
