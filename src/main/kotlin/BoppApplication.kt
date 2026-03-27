@@ -1,6 +1,4 @@
-package com.bopp.bopp.bopp
-
-import com.sun.tools.javac.code.TypeAnnotationPosition.field
+import com.bopp.bopp.bopp.AiLayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,10 +31,10 @@ class WebSocketConfig(
     }
 }
 class WebSocketClientHandler(
-    private val aiLayer: AiLayer  // Inject it here
+    private val aiLayer: AiLayer
 )  : WebSocketHandler {
 
-    private val scope = CoroutineScope(Dispatchers.IO)  // Add this
+    private val scope = CoroutineScope(Dispatchers.IO)
     private val logger = LoggerFactory.getLogger(WebSocketClientHandler::class.java)
 
     override fun afterConnectionEstablished(session: WebSocketSession) {
@@ -60,11 +58,7 @@ class WebSocketClientHandler(
 
                 // Process the message
                 scope.launch {
-                    try {
-                        // Example: Parse JSON
-                        // val data = objectMapper.readValue(payload, MyDataClass::class.java)
-
-                        // Handle the message
+                    try {GetSpamEmailDetection()
                         processMessage(session, payload)
 
                     } catch (e: Exception) {
@@ -142,10 +136,7 @@ class WebSocketClientHandler(
         // Your business logic here
         logger.info("Processing message: $payload")
         // Alternate ways to do  logging pros and cons of each
-        /**
-         * the keys is that within the alternate ways of doing something or infinite ways of doing something
-         * there are pros and cons of each
-         */
+       
 
         try {
             // Get AI response

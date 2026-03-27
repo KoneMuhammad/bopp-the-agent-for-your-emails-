@@ -18,8 +18,11 @@ data class User(
     val id: Long = 0,
     val name: String,
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
-    val emails: List<UserEmail> = emptyList()
-)
+    val emails: MutableList<UserEmail> = mutableListOf()
+){fun addEmail(email: UserEmail) {
+    emails.add(email)
+}}
+
 
 @Entity
 @Table(name = "user_emails")
