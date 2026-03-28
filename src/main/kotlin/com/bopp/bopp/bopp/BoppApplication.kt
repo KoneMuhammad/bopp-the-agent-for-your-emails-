@@ -1,4 +1,5 @@
-import com.bopp.bopp.bopp.AiLayer
+package com.bopp.bopp.bopp
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,14 +25,12 @@ fun main(args: Array<String>) {
 }
 
 class WebSocketConfig(
-    private val aiLayer: AiLayer
 ) : WebSocketConfigurer {
     override fun registerWebSocketHandlers(registry: WebSocketHandlerRegistry) {
-        registry.addHandler(WebSocketClientHandler(aiLayer), "/ws")
+        registry.addHandler(WebSocketClientHandler(), "/ws")
     }
 }
 class WebSocketClientHandler(
-    private val aiLayer: AiLayer
 )  : WebSocketHandler {
 
     private val scope = CoroutineScope(Dispatchers.IO)
@@ -58,7 +57,7 @@ class WebSocketClientHandler(
 
                 // Process the message
                 scope.launch {
-                    try {GetSpamEmailDetection()
+                    try {
                         processMessage(session, payload)
 
                     } catch (e: Exception) {
@@ -135,20 +134,7 @@ class WebSocketClientHandler(
     private suspend fun processMessage(session: WebSocketSession, payload: String) {
         // Your business logic here
         logger.info("Processing message: $payload")
-        // Alternate ways to do  logging pros and cons of each
-       
-
-        try {
-            // Get AI response
-            val aiResponse = aiLayer.chat(payload)
-
-            // Send back to client
-            session.sendMessage(TextMessage(aiResponse))
-
-        } catch (e: Exception) {
-            logger.error("Error getting AI response: ${e.message}", e)
-            session.sendMessage(TextMessage("Error: Could not process your message"))
-        }
+        // Alternate ways to do logging pros and cons of each
     }
 }
 
