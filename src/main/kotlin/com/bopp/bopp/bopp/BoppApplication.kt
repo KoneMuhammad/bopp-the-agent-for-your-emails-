@@ -53,11 +53,13 @@ class WebSocketClientHandler(
         when (message) {
             is TextMessage -> {
                 val payload = message.payload
+                // is like infop aboput the messgae; status, content type,
                 logger.info("Received text message: $payload")
-
                 // Process the message
                 scope.launch {
                     try {
+                        httpClient.send<String>(httpRequest, httpResponse)
+                        //handle whats given from response; the ai message yes or no
                         processMessage(session, payload)
 
                     } catch (e: Exception) {
