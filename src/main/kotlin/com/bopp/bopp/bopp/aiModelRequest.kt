@@ -12,7 +12,8 @@ const val contentType = "Content-Type"
 const val apiReturnFormat = "application/json"
 const val systemPrompt = "you will respond to me either yes or no"
 const val chatQuery = "is this email spam?"
-lateinit var email: Email
+
+val YOUR_API_KEY: String? = null
 
 val body = """
 {
@@ -29,7 +30,7 @@ val body = """
 val httpRequest = HttpRequest.newBuilder()
     .uri(URI.create("https://api.deepseek.com/chat/completions"))
     .header("Content-Type", "application/json")
-    .header("Authorization", "Bearer YOUR_API_KEY")
+    .header("Authorization", "Bearer ${YOUR_API_KEY}")
     .POST(BodyPublishers.ofString(body))
     .build()
 

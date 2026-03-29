@@ -39,10 +39,8 @@ class WebSocketClientHandler(
     override fun afterConnectionEstablished(session: WebSocketSession) {
         logger.info("WebSocket connection established: ${session.id}")
 
-        // Optional: Send initial message to server
         session.sendMessage(TextMessage("Client connected"))
 
-        // Optional: Store session if you need to reference it later
         // sessionMap[session.id] = session
     }
 
@@ -53,14 +51,19 @@ class WebSocketClientHandler(
         when (message) {
             is TextMessage -> {
                 val payload = message.payload
-                // is like infop aboput the messgae; status, content type,
+
                 logger.info("Received text message: $payload")
-                // Process the message
+
                 scope.launch {
                     try {
-                        httpClient.send<String>(httpRequest, httpResponse)
-                        //handle whats given from response; the ai message yes or no
-                        processMessage(session, payload)
+
+                        val aiCallResponse =  httpClient.send<String>(httpRequest, httpResponse).toString()
+
+                        print("the Value of whats recieved from the client send  ${aiCallResponse}")
+
+                        session.sendMessage(TextMessage(aiCallResponse))
+
+
 
                     } catch (e: Exception) {
                         logger.error("Error processing message: ${e.message}", e)
@@ -98,9 +101,6 @@ class WebSocketClientHandler(
         logger.error("WebSocket transport error for session ${session.id}: ${exception.message}", exception)
 
         // Optional: Attempt reconnection logic
-        // Optional: Notify application of error
-        // Optional: Clean up resources
-
         try {
             session.close(CloseStatus.SERVER_ERROR)
         } catch (e: Exception) {
@@ -113,10 +113,8 @@ class WebSocketClientHandler(
         closeStatus: CloseStatus
     ) {
         logger.info("WebSocket connection closed for session ${session.id}. Status: ${closeStatus.code} - ${closeStatus.reason}")
-
         // Clean up resources
         // sessionMap.remove(session.id)
-
         // Optional: Implement reconnection logic if needed
         when (closeStatus.code) {
             CloseStatus.NORMAL.code -> logger.info("Connection closed normally")
@@ -132,11 +130,9 @@ class WebSocketClientHandler(
         return false
     }
 
-    // Helper method to process messages
     private suspend fun processMessage(session: WebSocketSession, payload: String) {
-        // Your business logic here
+
         logger.info("Processing message: $payload")
-        // Alternate ways to do logging pros and cons of each
     }
 }
 
