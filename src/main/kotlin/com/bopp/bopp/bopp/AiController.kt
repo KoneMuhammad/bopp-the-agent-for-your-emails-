@@ -12,11 +12,23 @@ import java.net.http.HttpResponse
 
 @RestController
 class AiController {
+    val systemPrompt = "you will respond to me either yes or no"
+    val chatQuery = "is this email spam?"
 
+    val body = """
+{
+  "model": "deepseek-chat",
+  "messages": [
+    { "role": "system", "content": ${systemPrompt} },
+    { "role": "user", "content": ${chatQuery} }
+  ],
+  "stream": false
+}
+""".trimIndent()
 
     val mapper = ObjectMapper()
     @GetMapping("/v1/ai")
-    fun getModelResponse() : ResponseEntity<HttpResponse<String>>{
+    fun getModelResponse() : ResponseEntity<String>{
         val httpRequest = HttpRequest.newBuilder()
             .uri(URI.create("https://api.deepseek.com/chat/completions"))
             .header("Content-Type", "application/json")
@@ -24,7 +36,8 @@ class AiController {
             .POST(BodyPublishers.ofString(body))
             .build()
 
-
-        return ResponseEntity.ok().body(sendModelInstructions(httpRequest))
+        val response = httpClient.send(httpRequest, httpResponse)
+        return ResponseEntity.ok().header("Content-Type", "application/json")
+            .body(response.body())
     }
 }
