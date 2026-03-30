@@ -3,12 +3,11 @@ package com.bopp.bopp.bopp
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
-import secret.getApiKey
+import com.bopp.bopp.bopp.secret.getApiKey
 import tools.jackson.databind.ObjectMapper
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
-import java.net.http.HttpResponse
 
 @RestController
 class AiController {

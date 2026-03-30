@@ -1,4 +1,4 @@
-package user
+package com.bopp.bopp.bopp.user
 
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Entity
