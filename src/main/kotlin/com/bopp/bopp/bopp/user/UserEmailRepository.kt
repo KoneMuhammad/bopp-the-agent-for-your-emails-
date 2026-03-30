@@ -5,3 +5,4 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserEmailRepository : JpaRepository<UserEmail, Long>
+
