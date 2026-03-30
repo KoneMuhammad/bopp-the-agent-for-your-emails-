@@ -42,12 +42,9 @@ val body = """
     val httpResponse = HttpResponse.BodyHandlers.ofString()
 
 
-val mapper = ObjectMapper()
-
-fun sendPostToModel(){
-    val emptyStrinl: String? = null
+fun sendPostToModel(): HttpResponse<String>{
     val responseBody = httpClient.send(httpRequest, httpResponse)
-    val toObject = mapper.readValue(responseBody, String()::class.java)
+   return responseBody
 }
 
 
