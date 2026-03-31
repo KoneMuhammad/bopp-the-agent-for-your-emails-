@@ -3,6 +3,7 @@ package com.bopp.bopp.bopp.secret
 import com.infisical.sdk.InfisicalSdk
 import com.infisical.sdk.config.SdkConfig
 import com.infisical.sdk.models.Secret
+import jdk.jshell.tool.JavaShellToolBuilder
 
 val infiscalSecretSdk = InfisicalSdk(SdkConfig.Builder()
     .build())
@@ -19,4 +20,10 @@ val secret = infiscalSecretSdk.Secrets().GetSecret(
     "shared",
     )
     return secret
+}
+
+
+
+fun writeToFileIndirectory(args: String) {
+
 }
