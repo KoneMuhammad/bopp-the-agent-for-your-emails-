@@ -21,9 +21,3 @@ val secret = infiscalSecretSdk.Secrets().GetSecret(
     )
     return secret
 }
-
-
-
-fun writeToFileIndirectory(args: String) {
-
-}
