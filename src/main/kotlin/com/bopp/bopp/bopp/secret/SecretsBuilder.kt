@@ -3,7 +3,20 @@ package com.bopp.bopp.bopp.secret
 import com.infisical.sdk.InfisicalSdk
 import com.infisical.sdk.config.SdkConfig
 import com.infisical.sdk.models.Secret
-import jdk.jshell.tool.JavaShellToolBuilder
+import com.nimbusds.oauth2.sdk.http.HTTPRequest
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpRequest
+import org.springframework.http.ResponseCookie
+import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Component
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
+import tools.jackson.databind.ObjectMapper
+import java.awt.Color
+import java.net.http.HttpClient
+import java.net.http.HttpResponse
+import java.time.Duration
 
 val infiscalSecretSdk = InfisicalSdk(SdkConfig.Builder()
     .build())
@@ -21,3 +34,12 @@ val secret = infiscalSecretSdk.Secrets().GetSecret(
     )
     return secret
 }
+
+
+@Component
+class SpringBootManagaement {
+
+
+    fun calculateFunds(){}
+}
+
