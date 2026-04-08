@@ -12,7 +12,7 @@ import java.net.http.HttpRequest.BodyPublishers
 @RestController
 class AiController {
     val systemPrompt = "you will respond to me either yes or no"
-    val chatQuery = "is this email spam?"
+    val chatQuery = "do you like machine learning?"
 
     val body = """
 {

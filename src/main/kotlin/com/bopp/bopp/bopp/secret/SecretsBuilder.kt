@@ -43,3 +43,6 @@ class SpringBootManagaement {
     fun calculateFunds(){}
 }
 
+
+class baseexAmple(managementexample: SpringBootManagaement){
+}

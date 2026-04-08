@@ -35,6 +35,7 @@ dependencies {
     implementation("com.infisical:sdk:3.0.0")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation(kotlin("test"))
 
 }
 
