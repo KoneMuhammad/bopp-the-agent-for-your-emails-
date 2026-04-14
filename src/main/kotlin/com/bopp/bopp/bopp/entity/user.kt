@@ -1,4 +1,4 @@
-package com.bopp.bopp.bopp.agent
+package com.bopp.bopp.bopp.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

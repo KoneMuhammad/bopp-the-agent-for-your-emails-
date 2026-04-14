@@ -1,4 +1,7 @@
-package com.bopp.bopp.bopp.agent
+package com.bopp.bopp.bopp.service
+
+import com.bopp.bopp.bopp.DTO.LLMDecision
+import org.springframework.stereotype.Service
 
 @Service
 class EmailActionService {

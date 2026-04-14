@@ -1,4 +1,4 @@
-package com.bopp.bopp.bopp.agent
+package com.bopp.bopp.bopp.DTO
 
 data class LLMDecision(
     val id: String,

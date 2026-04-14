@@ -1,4 +1,9 @@
-package com.bopp.bopp.bopp.agent
+package com.bopp.bopp.bopp.service
+
+import com.bopp.bopp.bopp.DTO.EmailDTO
+import com.bopp.bopp.bopp.DTO.LLMDecision
+import org.springframework.stereotype.Service
+import org.springframework.web.reactive.function.client.WebClient
 
 @Service
 class LLMService(

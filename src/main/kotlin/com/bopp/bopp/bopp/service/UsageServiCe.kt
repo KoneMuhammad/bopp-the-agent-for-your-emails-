@@ -1,5 +1,7 @@
-package com.bopp.bopp.bopp.agent
+package com.bopp.bopp.bopp.service
 
+import com.bopp.bopp.bopp.UsageRepository
+import com.bopp.bopp.bopp.entity.Usage
 import org.springframework.stereotype.Service
 
 @Service
