@@ -23,6 +23,3 @@ class BoppApplication
 fun main(args: Array<String>) {
     runApplication<BoppApplication>(*args)
 }
-
-
-

@@ -3,7 +3,6 @@ package com.bopp.bopp.bopp.secret
 import com.infisical.sdk.InfisicalSdk
 import com.infisical.sdk.config.SdkConfig
 import com.infisical.sdk.models.Secret
-import com.nimbusds.oauth2.sdk.http.HTTPRequest
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpRequest
 import org.springframework.http.ResponseCookie

@@ -4,11 +4,13 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import com.bopp.bopp.bopp.secret.getApiKey
+import org.apache.el.parser.BooleanNode
 import org.springframework.web.reactive.function.client.WebClient
 import tools.jackson.databind.ObjectMapper
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
+import java.time.Duration
 
 @RestController
 class AiController {
@@ -41,7 +43,6 @@ class AiController {
 """.trimIndent()
 
 
-
     val mapper = ObjectMapper()
     @GetMapping("/v1/ai")
     fun getModelResponse() : ResponseEntity<String>{
@@ -66,3 +67,7 @@ class AiController {
             .body(responseFromLLM)
     }
 }
+
+
+
+
