@@ -1,4 +1,4 @@
-package com.bopp.bopp.bopp.DTO
+package com.bopp.bopp.bopp.findspam
 
 data class EmailDTO(
     val id: String,

@@ -1,4 +1,4 @@
-package com.bopp.bopp.bopp.DTO
+package com.bopp.bopp.bopp.findspam
 
 data class LLMDecision(
     val id: String,

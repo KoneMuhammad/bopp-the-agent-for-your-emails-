@@ -1,4 +1,4 @@
-package com.bopp.bopp.bopp.entity
+package com.bopp.bopp.bopp.auth
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id

@@ -1,4 +1,4 @@
-package com.bopp.bopp.bopp.entity
+package com.bopp.bopp.bopp.user
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

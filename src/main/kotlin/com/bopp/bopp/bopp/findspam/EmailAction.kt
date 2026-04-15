@@ -1,9 +1,11 @@
-package com.bopp.bopp.bopp.entity
+package com.bopp.bopp.bopp.findspam
+
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+
 @Entity
 @Table(name = "email_actions")
 data class EmailAction(

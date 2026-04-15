@@ -1,6 +1,5 @@
-package com.bopp.bopp.bopp.service
+package com.bopp.bopp.bopp.findspam
 
-import com.bopp.bopp.bopp.DTO.LLMDecision
 import org.springframework.stereotype.Service
 
 @Service

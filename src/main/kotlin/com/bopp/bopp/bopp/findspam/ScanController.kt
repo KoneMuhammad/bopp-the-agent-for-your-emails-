@@ -1,9 +1,7 @@
-package com.bopp.bopp.bopp.controller
+package com.bopp.bopp.bopp.findspam
 
 import com.bopp.bopp.bopp.UserRepository
-import com.bopp.bopp.bopp.service.EmailActionService
-import com.bopp.bopp.bopp.service.LLMService
-import com.bopp.bopp.bopp.service.UsageService
+import com.bopp.bopp.bopp.auth.GmailService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
