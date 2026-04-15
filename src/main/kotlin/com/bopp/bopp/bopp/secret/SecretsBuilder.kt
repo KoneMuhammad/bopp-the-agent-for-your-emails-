@@ -8,6 +8,7 @@ import org.springframework.http.HttpRequest
 import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -17,9 +18,10 @@ import java.net.http.HttpClient
 import java.net.http.HttpResponse
 import java.time.Duration
 
+@Service
+class SecretsService()
 val infiscalSecretSdk = InfisicalSdk(SdkConfig.Builder()
     .build())
-
 
 fun getApiKey(): Secret{
 val secret = infiscalSecretSdk.Secrets().GetSecret(

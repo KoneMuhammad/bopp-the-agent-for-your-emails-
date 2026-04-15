@@ -22,7 +22,9 @@ import java.nio.charset.StandardCharsets
  *
  */
 @RestController
-class AuthController {
+class AuthController(
+    val authTokenService: AuthTokenService
+) {
 
     @GetMapping("/auth/google")
     fun googleAuth(response: HttpServletResponse) {
@@ -45,6 +47,7 @@ class AuthController {
 
     @GetMapping("/auth/callback")
     fun callback(@RequestParam code: String): String {
+        authTokenService.getToken(code)
         println("AUTH CODE: $code")
         return "Got code: $code"
     }
@@ -53,15 +56,13 @@ class AuthController {
 }
 
 @Service
-class getTokenService {
-    fun getToken() {
+class AuthTokenService {
+    fun getToken(authCode: String) {
         val clientIdOauth = gettsecret()
-
-        val code = ""
-
-        val body = "code=$code" +
+        
+        val redirectUri = "https://bopp-backend.onrender.com"
+        val body = "code=$authCode" +
                 "&client_id=$clientIdOauth" +
-                //redirect url one thats in the project
                 "&redirect_uri=${URLEncoder.encode(redirectUri, "UTF-8")}" +
                 "&grant_type=authorization_code"
 
