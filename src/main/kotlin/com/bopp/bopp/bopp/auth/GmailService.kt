@@ -24,3 +24,11 @@ class GmailService(
         return listOf(response ?: "")
     }
 }
+
+
+/**                               service
+ * backend has oauth gives gmail [means?] gmail gives token
+ * use token to call gmail for user signin,
+ *user signin, user thropugh signing in provides token
+ *token sent to gmail, gives my backend the ok
+ */
