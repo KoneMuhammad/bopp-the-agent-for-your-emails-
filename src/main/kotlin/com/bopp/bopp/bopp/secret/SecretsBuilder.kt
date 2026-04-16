@@ -16,7 +16,7 @@ import tools.jackson.databind.ObjectMapper
 import java.awt.Color
 import java.net.http.HttpClient
 import java.net.http.HttpResponse
-import java.time.Duration
+
 
 @Service
 class SecretsService()
@@ -36,14 +36,30 @@ val secret = infiscalSecretSdk.Secrets().GetSecret(
     return secret
 }
 
-
-@Component
-class SpringBootManagaement {
-
-
-    fun calculateFunds(){}
+fun getClientId():
+Secret{
+    val secret = infiscalSecretSdk.Secrets().GetSecret(
+        "GOOGLE_CLIENT_ID",
+        "822fe0ab-6677-4316-84ce-2bccce0cbb96",
+        "Development",
+        "/",
+        false,
+        false,
+        "shared",
+    )
+    return secret
 }
 
-
-class baseexAmple(managementexample: SpringBootManagaement){
-}
+fun getClientPassword():
+        Secret{
+    val secret = infiscalSecretSdk.Secrets().GetSecret(
+        "GOOGLE_CLIENT_SECRET",
+        "822fe0ab-6677-4316-84ce-2bccce0cbb96",
+        "Development",
+        "/",
+        false,
+        false,
+        "shared",
+    )
+    return secret
+}aSD
