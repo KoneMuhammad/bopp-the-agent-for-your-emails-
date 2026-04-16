@@ -1,6 +1,8 @@
 package com.bopp.bopp.bopp.findspam
 
 
+import com.bopp.bopp.bopp.secret.SecretService
+import com.infisical.sdk.models.Secret
 import com.squareup.okhttp.Headers
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -14,21 +16,17 @@ import java.nio.charset.StandardCharsets
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.reactive.function.client.WebClient
 import java.net.http.HttpRequest
-import java.nio.charset.StandardCharsets
 
-/**  ask springboot for response so i can send it after the geT
- *   in there i call google with a redirect resource which is my endpoint
- *   they handle 1 thing, they themselves go back to me to give me the auth
- *
- */
+
 @RestController
 class AuthController(
-    val authTokenService: AuthTokenService
+    val authTokenService: AuthTokenService,
+    val secretService : SecretService
 ) {
 
     @GetMapping("/auth/google")
     fun googleAuth(response: HttpServletResponse) {
-        val clientId = "YOUR_CLIENT_ID"
+        val clientId = secretService.clientId
         val redirectUri = URLEncoder.encode(
             //switch to render domain
             "http://localhost:8080/auth/callback",
@@ -47,22 +45,33 @@ class AuthController(
 
     @GetMapping("/auth/callback")
     fun callback(@RequestParam code: String): String {
-        authTokenService.getToken(code)
+        authTokenService.getToken(code, secretService.clientId)
         println("AUTH CODE: $code")
         return "Got code: $code"
+        /**
+         * who do i return the code too?
+         *
+         * understand the google redirection
+         *
+         */
+
+        /**
+         *
+         *
+         */
     }
 
 
 }
 
 @Service
-class AuthTokenService {
-    fun getToken(authCode: String) {
-        val clientIdOauth = gettsecret()
-        
+class AuthTokenService(
+) {
+    fun getToken(authCode: String, clientID: Secret) {
+
         val redirectUri = "https://bopp-backend.onrender.com"
         val body = "code=$authCode" +
-                "&client_id=$clientIdOauth" +
+                "&client_id=$clientID" +
                 "&redirect_uri=${URLEncoder.encode(redirectUri, "UTF-8")}" +
                 "&grant_type=authorization_code"
 
