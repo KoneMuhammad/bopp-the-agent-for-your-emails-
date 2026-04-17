@@ -18,11 +18,3 @@ class EmailActionService {
         // Call Gmail API here
     }
 }
-@Service
-class EmailService {
-
-    fun placeEmailsInSpam(){
-
-        client =
-    }
-}
