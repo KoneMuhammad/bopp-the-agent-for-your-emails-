@@ -11,6 +11,10 @@ data class OAuthToken(
     val userId: Long,
 
     val accessToken: String,
-    val refreshToken: String,
-    val expiry: Long
+    val refresh_token: String?,
+    val expires_in: Int,
+    val scope: String,
+    val token_type: String
 )
+
+
