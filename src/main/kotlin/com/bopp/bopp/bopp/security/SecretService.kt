@@ -1,4 +1,4 @@
-package com.bopp.bopp.bopp.secret
+package com.bopp.bopp.bopp.security
 
 import com.infisical.sdk.InfisicalSdk
 import com.infisical.sdk.config.SdkConfig
