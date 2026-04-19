@@ -54,16 +54,6 @@ import tools.jackson.databind.ObjectMapper
 
     fun setEmailsToSpam(userEmails: List<UserEmail>) {
 
-        /**
-         * working on ui to decide what i want for the backend, looking up ai design tools to do so fe tools
-         * webclient call to Gmail(token)->
-         * webclient call to llm(email, prompt)->
-         * logic(slop)->
-         * webclient call to gmail(write)
-         *
-         * if newemailshowup step 2-3-4
-         * [how] timed read to gmail or websocket gmail const give me emails
-         */
     }
 
 }
