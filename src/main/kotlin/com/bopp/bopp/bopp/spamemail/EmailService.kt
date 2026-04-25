@@ -4,6 +4,10 @@ import org.springframework.web.reactive.function.client.WebClient
 import tools.jackson.databind.ObjectMapper
 
 @Service class EmailService {
+//maybe seperate the two to be able to do lazy
+
+    //one to get the emails. the other to convert from email to actual useemail object
+
 
     val mapper = ObjectMapper()
 
