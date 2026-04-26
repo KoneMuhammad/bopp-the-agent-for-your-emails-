@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
+import org.springframework.scheduling.annotation.Scheduled
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import org.springframework.web.bind.annotation.RequestParam
 import tools.jackson.databind.ObjectMapper
+import java.time.Duration
 
 
 @RestController
@@ -48,9 +50,8 @@ class AuthController(
     fun callback(@RequestParam code: String): ResponseEntity<List<UserEmail>> {
        val token = authService.getToken(code, secretService.clientId)
 
-        val emails = emailService.getEmails(token.accessToken)
-        return ResponseEntity.ok(emails)
+            val emails = emailService.getEmails(token.accessToken)
+            return ResponseEntity.ok(emails)
 
     }
-
 }
