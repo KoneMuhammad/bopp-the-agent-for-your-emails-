@@ -11,9 +11,16 @@ class EmailController {
     @PostMapping("/email/spam")
     fun setEmailsSpam(@RequestBody emails: List<UserEmail>){
 
-
         //write to gmail set to spam using ai logic
         //deepseak service
     }
 
 }
+
+//agent, == prompts and api [means]
+//apis = webclinet. call
+//llm complete webclient. call
+
+
+//llm.call(result)
+//rerun

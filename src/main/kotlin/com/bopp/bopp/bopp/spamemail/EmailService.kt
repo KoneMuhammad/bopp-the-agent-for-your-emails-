@@ -56,8 +56,4 @@ import tools.jackson.databind.ObjectMapper
         return results
     }
 
-    fun setEmailsToSpam(userEmails: List<UserEmail>) {
-
-    }
-
 }
