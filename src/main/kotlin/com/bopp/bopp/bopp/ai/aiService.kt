@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.client.WebClient
 @Service
 class AIService {
 
-    fun getSpamEmailDecision(emails: List<UserEmail>) {
+    fun getSpamEmailDecision(emails: List<UserEmail>): String {
         val webClient = WebClient.builder().build()
 
         val emailDetails = emails.joinToString(separator = "\n") { email ->
@@ -33,5 +33,7 @@ class AIService {
             .retrieve()
             .bodyToMono(String::class.java)
             .block()
+
+        return response!!
     }
 }

@@ -16,9 +16,28 @@ class EmailController(
 
     @PostMapping("/email/spam")
     fun setEmailsSpam(@RequestBody emails: List<UserEmail>) {
+        val webClient = WebClient.builder().build()
+
+        emails.forEach { email ->
+            webClient.post()
+                .uri("https://gmail.googleapis.com/gmail/v1/users/me/messages/{id}/modify", email.id)
+                .header("Authorization", "Bearer TOKEN")
+                .bodyValue(
+                    mapOf(
+                        "addLabelIds" to listOf("SPAM"),
+                        "removeLabelIds" to listOf("INBOX")
+                    )
+                )
+                .retrieve()
+                .bodyToMono(String::class.java)
+                .block()
+        }
+
         aIService.getSpamEmailDecision(emails)
 
     }
-
 }
+
+
+
 
