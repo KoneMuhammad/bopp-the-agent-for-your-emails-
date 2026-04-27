@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.client.WebClient
 @Service
 class AIService {
 
-    fun getSpamEmailDecision(emails: List<UserEmail>): String {
+    fun getSpamEmailDecision(emails: List<UserEmail>): List<String> {
         val webClient = WebClient.builder().build()
 
         val emailDetails = emails.joinToString(separator = "\n") { email ->
@@ -32,8 +32,15 @@ class AIService {
             )
             .retrieve()
             .bodyToMono(String::class.java)
-            .block()
+            .block()?: return emptyList()
 
-        return response!!
+        return response.lines()
+            .filter { it.contains("= spam") }
+            .mapNotNull {
+                Regex("ID:\\s*(\\S+)").find(it)?.groupValues?.get(1)
+            }
+
+
     }
 }
+
