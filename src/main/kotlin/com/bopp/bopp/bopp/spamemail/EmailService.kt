@@ -1,20 +1,17 @@
 package com.bopp.bopp.bopp.spamemail
+
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
-import tools.jackson.databind.ObjectMapper
 
-@Service class EmailService {
-//maybe seperate the two to be able to do lazy
+@Service
+class EmailService {
+    // one to get the emails. the other to convert from email to actual user email object
 
-    //one to get the emails. the other to convert from email to actual useemail object
-
-
-    val mapper = ObjectMapper()
+    private val mapper = ObjectMapper()
+    private val client = WebClient.create()
 
     fun getEmails(accessToken: String): List<UserEmail> {
-
-        val client = WebClient.create()
-
         val listResponse = client.get()
             .uri("https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=10")
             .header("Authorization", "Bearer $accessToken")
@@ -28,8 +25,7 @@ import tools.jackson.databind.ObjectMapper
         val results = mutableListOf<UserEmail>()
 
         for (msg in messages) {
-
-            val id = msg["id"].asString()
+            val id = msg["id"].asText()
 
             val messageResponse = client.get()
                 .uri("https://gmail.googleapis.com/gmail/v1/users/me/messages/{id}?format=full", id)
@@ -39,21 +35,36 @@ import tools.jackson.databind.ObjectMapper
                 .block()
 
             val message = mapper.readValue(messageResponse, GmailMessage::class.java)
-
             val subject = message.payload.headers
                 .find { it.name == "Subject" }
                 ?.value ?: "(no subject)"
 
-            val body = message.payload.getReadableBody()
-
-            results.add(UserEmail(
-                id = id,
-                subject = subject,
-                body = body
-            ))
+            results.add(
+                UserEmail(
+                    id = id,
+                    subject = subject,
+                    body = message.payload.getReadableBody()
+                )
+            )
         }
 
         return results
     }
 
+    fun markEmailsAsSpam(accessToken: String, emailIds: List<String>) {
+        emailIds.distinct().forEach { id ->
+            client.post()
+                .uri("https://gmail.googleapis.com/gmail/v1/users/me/messages/{id}/modify", id)
+                .header("Authorization", "Bearer $accessToken")
+                .bodyValue(
+                    mapOf(
+                        "addLabelIds" to listOf("SPAM"),
+                        "removeLabelIds" to listOf("INBOX")
+                    )
+                )
+                .retrieve()
+                .bodyToMono(String::class.java)
+                .block()
+        }
+    }
 }
