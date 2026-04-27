@@ -31,10 +31,16 @@ class EmailController(
     fun startSpamLoop(@RequestBody request: LoopControlRequest): ResponseEntity<Map<String, Any>> {
         emailLoopService.startLoop(
             clientId = request.clientId,
-            accessToken = request.accessToken,
             pollIntervalMs = request.pollIntervalMs,
+            maxRuns = request.maxRuns,
         )
-        return ResponseEntity.ok(mapOf("started" to true, "clientId" to request.clientId))
+        return ResponseEntity.ok(
+            mapOf(
+                "started" to true,
+                "clientId" to request.clientId,
+                "maxRuns" to request.maxRuns,
+            )
+        )
     }
 
     @DeleteMapping("/email/spam/loop")

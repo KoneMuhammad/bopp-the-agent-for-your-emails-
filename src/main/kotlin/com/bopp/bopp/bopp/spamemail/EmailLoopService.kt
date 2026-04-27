@@ -1,5 +1,6 @@
 package com.bopp.bopp.bopp.spamemail
 
+import com.bopp.bopp.bopp.auth.ClientTokenStore
 import com.bopp.bopp.bopp.ai.AIService
 import com.bopp.bopp.bopp.websocket.FrontendWebSocketHandler
 import jakarta.annotation.PreDestroy
@@ -16,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 @Service
 class EmailLoopService(
+    private val clientTokenStore: ClientTokenStore,
     private val emailService: EmailService,
     private val aiService: AIService,
     private val frontendWebSocketHandler: FrontendWebSocketHandler,
@@ -25,7 +27,10 @@ class EmailLoopService(
     private val jobsByClientId = ConcurrentHashMap<String, Job>()
     private val processedEmailIdsByClientId = ConcurrentHashMap<String, MutableSet<String>>()
 
-    fun startLoop(clientId: String, accessToken: String, pollIntervalMs: Long = 15_000L) {
+    fun startLoop(clientId: String, pollIntervalMs: Long = 15_000L, maxRuns: Int = 5) {
+        val accessToken = clientTokenStore.getAccessToken(clientId)
+            ?: throw IllegalStateException("No Gmail access token found for clientId=$clientId")
+
         jobsByClientId.remove(clientId)?.cancel()
 
         processedEmailIdsByClientId.putIfAbsent(clientId, ConcurrentHashMap.newKeySet())
@@ -37,10 +42,11 @@ class EmailLoopService(
                     "type" to "loop.started",
                     "clientId" to clientId,
                     "pollIntervalMs" to pollIntervalMs,
+                    "maxRuns" to maxRuns,
                 )
             )
 
-            while (true) {
+            repeat(maxRuns) {
                 try {
                     val fetchedEmails = emailService.getEmails(accessToken)
                     val processedIds = processedEmailIdsByClientId.getValue(clientId)
@@ -94,8 +100,20 @@ class EmailLoopService(
                     )
                 }
 
-                delay(pollIntervalMs)
+                if (it < maxRuns - 1) {
+                    delay(pollIntervalMs)
+                }
             }
+
+            frontendWebSocketHandler.sendJson(
+                clientId,
+                mapOf(
+                    "type" to "loop.completed",
+                    "clientId" to clientId,
+                    "completedRuns" to maxRuns,
+                )
+            )
+            jobsByClientId.remove(clientId)
         }
     }
 
